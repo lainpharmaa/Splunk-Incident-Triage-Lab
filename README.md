@@ -54,7 +54,7 @@ index=botsv1 imreallynotbatman.com sourcetype="stream:http"
 
 ![Image 5](images/screenshot-05.png)
 
-Two user-agent strings stood out as red flags: "Python-urllib/2.7" and `;print(md5(acunetix_wvs_security_test));$a=` — the latter references Acunetix, a web vulnerability scanner. This confirmed that the attacker at IP 40.80.148.42 used the Acunetix Web Vulnerability Scanner to automatically probe and map our web application for security flaws prior to launching exploitation attempts.
+Two user-agent strings stood out as red flags: "Python-urllib/2.7" and `;print(md5(acunetix_wvs_security_test));$a=` the latter references Acunetix, a web vulnerability scanner. This confirmed that the attacker at IP 40.80.148.42 used the Acunetix Web Vulnerability Scanner to automatically probe and map our web application for security flaws prior to launching exploitation attempts.
 
 This sums up Phase 1, Reconnaissance & Vulnerability Scanning.
 
@@ -78,7 +78,7 @@ index=botsv1 sourcetype=stream:http dest_ip="192.168.250.70"
 
 ![Image 7](images/screenshot-07.png)
 
-The src_ip interesting field shows three IPs — one is our local IP, and the other two are remote IPs originating HTTP traffic toward our webserver.
+The src_ip interesting field shows three IPs one is our local IP, and the other two are remote IPs originating HTTP traffic toward our webserver.
 
 Looking at the http_method field to see what kind of activity the attacker was attempting:
 
@@ -279,7 +279,7 @@ This surfaced the domain www.po1s0n1vy.com, associated with our attacker, so I s
 
 ![Image 34](images/screenshot-34.png)
 
-Under the Relations tab, a personal domain, lillian.po1s0n1vy.com, appeared — potentially tied to the attacker.
+Under the Relations tab, a personal domain, lillian.po1s0n1vy.com, appeared potentially tied to the attacker.
 
 ![Image 35](images/screenshot-35.png)
 
