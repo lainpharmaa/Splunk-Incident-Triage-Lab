@@ -1,8 +1,8 @@
-Incident Case: BOTSv1 Web Compromise & C2 Infrastructure Analysis
-Target Organization: Wayne Enterprises (imreallynotbatman.com)
-Analyst: Prince Bhattarai
-Date: July 2026
-Framework: Lockheed Martin Cyber Kill Chain / NIST SP 800-61
+**Incident Case:** BOTSv1 Web Compromise & C2 Infrastructure Analysis  
+**Target Organization:** Wayne Enterprises (imreallynotbatman.com)  
+**Analyst:** Prince Bhattarai  
+**Date:** July 2026  
+**Framework:** Lockheed Martin Cyber Kill Chain / NIST SP 800-61
 
 ## Executive Summary
 
