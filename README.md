@@ -327,11 +327,11 @@ I continued the search on hybrid-analysis.com using the same SHA-256 hash to fin
 | Secondary Backdoor SHA-256 | 9709473ab351387aab9e816eff3910b9f28a7a70202e250ed46dba8f820f34a8 | Hash for MirandaTateScreensaver.scr.exe |
 | Adversary Email / Handle | lillian.rose@po1s0n1vy.com / Lillian | Unmasked threat actor identity |
 
-Remediation & Security Recommendations
+## Remediation & Security Recommendations
 
 1. Perimeter Isolation & Network Blocking
    * Immediately block all inbound and outbound traffic associated with threat actor IP addresses 23.22.63.114 and 40.80.148.42 at the perimeter firewall (Fortigate UTM).
-   * Implement DNS sinkhole rules across internal DNS servers for malicious domains po1s0n1vy.com and dynamic C2 host prankglassinebracket.jumpingcrab.com.
+   * Implement DNS sinkhole rules across internal DNS servers for malicious domains po1s0n1vy.com and dynamic C2 host prankglassinebracket.jumpPhase 7: Remediation & Security Recommendationsingcrab.com.
 
 2. Endpoint Detection & Response (EDR) Hash Blocks
    * Deploy global EDR file execution blocks for primary trojan payload 3791.exe (SHA-256: ec78c938d8453739ca2a370b9c275971ec46caf6e479de2b2d04e97cc47fa45d).
