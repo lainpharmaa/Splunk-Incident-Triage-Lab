@@ -327,19 +327,22 @@ I continued the search on hybrid-analysis.com using the same SHA-256 hash to fin
 | Secondary Backdoor SHA-256 | 9709473ab351387aab9e816eff3910b9f28a7a70202e250ed46dba8f820f34a8 | Hash for MirandaTateScreensaver.scr.exe |
 | Adversary Email / Handle | lillian.rose@po1s0n1vy.com / Lillian | Unmasked threat actor identity |
 
-## FortiSIEM Conceptual Mapping
+Remediation & Security Recommendations
 
-Inetum's SOC stack runs on FortiSIEM rather than Splunk, so this section maps the SPL detections above to their FortiSIEM equivalents — same detection logic, different platform.
+1. Perimeter Isolation & Network Blocking
+   * Immediately block all inbound and outbound traffic associated with threat actor IP addresses 23.22.63.114 and 40.80.148.42 at the perimeter firewall (Fortigate UTM).
+   * Implement DNS sinkhole rules across internal DNS servers for malicious domains po1s0n1vy.com and dynamic C2 host prankglassinebracket.jumpingcrab.com.
 
-| Splunk Detection (this investigation) | FortiSIEM Equivalent |
-|---|---|
-| `sourcetype=stream:http` + Acunetix user-agent string match | FortiSIEM event attribute rule on HTTP User-Agent field, correlated against a Vulnerability Scanner watchlist/pattern |
-| `stats count(src_ip) by src_ip` for volumetric recon detection | FortiSIEM "Excessive" rule type — threshold-based count of events per src_ip over a time window |
-| Suricata XSS/SQLi/XXE alert.signature matches | FortiSIEM ingests Suricata/IDS syslog as an external event source; correlation rule fires on signature category matching Web Attack rule group |
-| `form_data=*username*passwd*` + rex extraction for brute-force tracking | FortiSIEM login-failure correlation rule (repeated auth failures from one src_ip within a defined window against the same dest_ip) |
-| `dest_ip="192.168.250.70" *.exe` to spot binary delivery over HTTP | FortiSIEM file-transfer/HTTP object rule flagging executable MIME types or extensions in web traffic |
-| `sourcetype=fortigate_utm` SQL Injection rule hits | Native FortiSIEM ingestion — FortiGate UTM logs feed directly via syslog/API, so this detection requires no translation, just a correlation rule on the IPS/WAF signature ID |
-| C2 domain/IP pivot via stream:dns and stream:http | FortiSIEM DNS query analytics rule correlated against a threat intel IP/domain watchlist (STIX/TAXII or manual IOC feed) |
-| Manual OSINT pivoting (VirusTotal, ThreatMiner, Hybrid Analysis, Robtex) | Not a SIEM-native function in either platform — this stays a manual analyst workflow, though FortiSIEM can auto-enrich IOCs against a configured threat intel feed to speed up the first pass |
+2. Endpoint Detection & Response (EDR) Hash Blocks
+   * Deploy global EDR file execution blocks for primary trojan payload 3791.exe (SHA-256: ec78c938d8453739ca2a370b9c275971ec46caf6e479de2b2d04e97cc47fa45d).
+   * Deploy execution blocks for secondary backdoor payload MirandaTateScreensaver.scr.exe (SHA-256: 9709473ab351387aab9e816eff3910b9f28a7a70202e250ed46dba8f820f34a8).
 
-The core difference in a live SOC environment: FortiSIEM's rule engine is more real-time/streaming-oriented (event-driven correlation rules that fire as logs arrive), while this investigation was retrospective SPL querying against historical data. The underlying logic — volumetric thresholds, signature matches, watchlist correlation — carries over directly; what changes is the syntax and the fact that in FortiSIEM these would ideally be pre-built rules generating alerts, rather than ad hoc searches run after the fact.
+3. Credential Hardening & Identity Management
+   * Enforce an enterprise-wide mandatory credential reset for all administrative accounts on the Joomla CMS platform.
+   * Terminate all active administrative web sessions and audit user accounts to ensure no persistence or unauthorized backdoors were established.
+   * Enforce strong password complexity policies to eliminate vulnerable credentials (such as "batman").
+
+4. Host Containment & Web Application Hardening
+   * Isolate target web server 192.168.250.70 from the internal network to perform full forensic disk imaging and eradicate uploaded web shells (agent.php) and malicious binaries.
+   * Audit and patch the Joomla web CMS framework to mitigate known vulnerabilities targeted by automated scanning tools like Acunetix.
+   * Restrict direct external access to administrative portals (/joomla/administrator/index.php) via IP whitelisting or VPN-only access.
